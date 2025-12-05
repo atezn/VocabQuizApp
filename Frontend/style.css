@@ -1,0 +1,169 @@
+/* 1. DEFINE OUR THEME VARIABLES */
+:root {
+    /* --- Default Theme: Windows 98 --- */
+    --bg-color: #008080;              /* Teal */
+    --window-bg: #c0c0c0;             /* Gray */
+    --text-color: #000000;            /* Black */
+    --font-main: "MS Sans Serif", "Segoe UI", sans-serif;
+    
+    /* Borders & 3D Effects */
+    --border-light: #ffffff;
+    --border-dark: #000000;
+    --btn-radius: 0px;                /* Sharp corners */
+    --window-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+    
+    /* Button Borders (The 3D Trick) */
+    --btn-shadow: inset 1px 1px #ffffff, inset -1px -1px #000000, 1px 1px #000000;
+    --btn-shadow-active: inset 1px 1px #000000, inset -1px -1px #ffffff;
+}
+
+/* --- The Modern Theme Overrides --- */
+/* We will activate this later by adding class="modern" to the body */
+body.modern {
+    --bg-color: #0f172a;              /* Deep Navy */
+    --window-bg: #1e293b;             /* Lighter Navy */
+    --text-color: #ffffff;            /* White */
+    --font-main: "Inter", "Segoe UI", sans-serif;
+    
+    --border-light: #334155;          /* Subtle borders */
+    --border-dark: #334155;
+    --btn-radius: 12px;               /* Rounded corners */
+    --window-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); /* Soft shadow */
+    
+    /* Modern Button Style (Flat with Border) */
+    --btn-shadow: none;
+    --btn-shadow-active: none;
+}
+
+/* 2. APPLY THE VARIABLES (The Layout) */
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-color); /* Uses the variable! */
+    font-family: var(--font-main);
+    color: var(--text-color);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease; /* Smooth transition when switching */
+}
+
+/* 3. BUTTONS */
+.win-btn {
+    background-color: var(--window-bg);
+    border: none;
+    padding: 10px 15px; /* Slightly bigger touch target */
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-color);
+    cursor: pointer;
+    margin: 2px;
+    border-radius: var(--btn-radius); /* Sharp in 98, Round in Modern */
+    box-shadow: var(--btn-shadow);    /* 3D in 98, Flat in Modern */
+    
+    /* For Modern Theme only: add a visible border */
+    border: 1px solid transparent; 
+}
+
+/* Specific Modern Theme Button Tweaks */
+body.modern .win-btn {
+    border: 1px solid #334155; /* Visible border for modern */
+    background-color: transparent;
+}
+body.modern .win-btn:hover {
+    border-color: #3b82f6; /* Blue hover */
+    color: #3b82f6;
+}
+
+/* Active State */
+.win-btn:active, .win-btn.active {
+    box-shadow: var(--btn-shadow-active);
+    padding: 10px 15px; /* Keep consistent */
+}
+
+body.modern .win-btn.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* 4. MAIN WINDOW */
+.win98-window {
+    background-color: var(--window-bg);
+    width: 600px;
+    padding: 20px;
+    border-radius: var(--btn-radius);
+    box-shadow: var(--window-shadow);
+    
+    /* The Retro Border Logic */
+    border-top: 2px solid var(--border-light);
+    border-left: 2px solid var(--border-light);
+    border-right: 2px solid var(--border-dark);
+    border-bottom: 2px solid var(--border-dark);
+}
+
+/* 5. HEADER */
+.window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    border-bottom: 2px solid var(--border-light); /* Simplified border */
+    padding-bottom: 10px;
+}
+
+.main-nav { display: flex; gap: 5px; }
+
+/* 6. CONTENT */
+.quiz-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.question-word {
+    font-size: 36px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* 7. OPTIONS GRID */
+.option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 50px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.option-btn {
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    width: 100%; /* Ensure it fills the grid cell */
+}
+
+/* 8. FOOTER */
+.footer-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.idk-btn {
+    font-weight: bold;
+    padding: 10px 30px;
+}
+
+/* Hide the border on modern IDK button */
+body.modern .idk-btn {
+    border: none;
+    color: #64748b;
+}
+body.modern .idk-btn:hover {
+    text-decoration: underline;
+    background: transparent;
+    color: white;
+}
