@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Data;
 using System.Data.Common;
@@ -182,4 +183,108 @@ namespace vocabQuizAPI.Repositories
                 }
             }
         }
-}   }
+
+
+        // crud create kismi
+        public async Task<int> AddWordAsync(Word word)
+        {
+            using (IDbConnection db = new MySqlConnection(_connectionString))
+            {
+                string query = @"
+                    INSERT INTO words (category_id, created_by, english_word, turkish_meaning, cefr_level)
+                    VALUES (@CategoryId, @CreatedBy, @EnglishWord, @TurkishMeaning, @CefrLevel);
+                    SELECT LAST_INSERT_ID();";
+
+                return await db.ExecuteScalarAsync<int>(query, word);
+            }
+        }
+
+
+        //crud read kismi
+        public async Task<IEnumerable<Word>> GetWordsByCreatorAsync(int userId)
+        {
+            using (IDbConnection db = new MySqlConnection(_connectionString))
+            {
+                string query = @"
+                    SELECT 
+                        word_id AS WordId, category_id AS CategoryId, created_by AS CreatedBy,
+                        english_word AS EnglishWord, turkish_meaning AS TurkishMeaning, cefr_level AS CefrLevel
+                    FROM words 
+                    WHERE created_by = @UserId
+                    ORDER BY word_id DESC"; // stack, yeniden eskiye
+
+                return await db.QueryAsync<Word>(query, new { UserId = userId });
+            }
+        }
+
+        //crud rea
+        public async Task<Word?> GetWordByIdAsync(int wordId)
+        {
+            using (IDbConnection db = new MySqlConnection(_connectionString))
+            {
+                string query = @"
+                    SELECT 
+                        word_id AS WordId, category_id AS CategoryId, created_by AS CreatedBy,
+                        english_word AS EnglishWord, turkish_meaning AS TurkishMeaning, cefr_level AS CefrLevel
+                    FROM words WHERE word_id = @WordId";
+
+                return await db.QueryFirstOrDefaultAsync<Word>(query, new { WordId = wordId });
+            }
+        }
+
+        //crud update
+        public async Task<bool> UpdateWordAsync(Word word)
+        {
+            using (IDbConnection db = new MySqlConnection(_connectionString))
+            {
+                string query = @"
+                    UPDATE words 
+                    SET category_id = @CategoryId,
+                        english_word = @EnglishWord,
+                        turkish_meaning = @TurkishMeaning,
+                        cefr_level = @CefrLevel
+                    WHERE word_id = @WordId";
+
+                int rowsAffected = await db.ExecuteAsync(query, word);
+                return rowsAffected > 0; // eger degisiklik olduysa zaten true
+            }
+        }
+
+
+        //crud delete
+        public async Task<bool> DeleteWordAsync(int wordId)
+        {
+            using (IDbConnection db = new MySqlConnection(_connectionString))
+            {
+                string query = "DELETE FROM words WHERE word_id = @WordId";
+
+                int rowsAffected = await db.ExecuteAsync(query, new { WordId = wordId });
+                return rowsAffected > 0;
+            }
+        }
+
+        //sql injection
+        public async Task<IEnumerable<Word>> UnsafeSearchAsync(string term)
+        {
+            using (IDbConnection db = new MySqlConnection(_connectionString))
+            {
+
+                string query = $@"
+                                SELECT 
+                                word_id AS WordId, 
+                                category_id AS CategoryId,
+                                root_word_id AS RootWordId,
+                                created_by AS CreatedBy,
+                                english_word AS EnglishWord, 
+                                turkish_meaning AS TurkishMeaning, 
+                                cefr_level AS CefrLevel
+                                FROM words 
+                                WHERE english_word = '{term}'";
+
+                return await db.QueryAsync<Word>(query);
+            }
+        }
+
+
+    }
+}

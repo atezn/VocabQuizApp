@@ -9,6 +9,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<vocabQuizAPI.Repositories.IWordRepository, vocabQuizAPI.Repositories.WordRepository>();
 builder.Services.AddScoped<vocabQuizAPI.Repositories.IScorecardRepository, vocabQuizAPI.Repositories.ScorecardRepository>();
+builder.Services.AddScoped<vocabQuizAPI.Repositories.IAuthRepository, vocabQuizAPI .Repositories.AuthRepository>();
+builder.Services.AddScoped<vocabQuizAPI.Repositories.IHistoryRepository, vocabQuizAPI.Repositories.HistoryRepository>();
+builder.Services.AddScoped<vocabQuizAPI.Repositories.ICategoryRepository, vocabQuizAPI.Repositories.CategoryRepository>();
 
 
 builder.Services.AddCors(options =>  //frontend istekleri kabul etmek icin

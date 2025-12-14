@@ -7,5 +7,6 @@
         public int WordId { get; set; }
         public string Status { get; set; } = "review";
         public int Streak { get; set; }
+        public DateTime LastUpdated { get; set; }
     }
 }

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vocab QUIZ</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -38,6 +39,20 @@
             <div class="footer-actions">
                 <button class="win-btn idk-btn">I don't know</button>
             </div>
+        </main>
+
+        <main class="stats-content" style="display: none;">
+            <h2>Daily Progress</h2>
+            
+            <div style="background: white; padding: 10px; border:  2px inset white; margin-bottom: 20px;">
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <h3>Recent Attemps</h3>
+            <ul id="history-list" style="text-align: left; max-height: 150px; overflow-y: auto; background: white; border: 2px inset white; padding: 10px; list-style: none;">
+                <!-- js dolduracak -->
+            </ul>
+
         </main>
     </div>
 

@@ -167,3 +167,9 @@ body.modern .idk-btn:hover {
     background: transparent;
     color: white;
 }
+
+
+/*bunu ai sorarak aldim, js arkaplan rengi degisince border kaybolmasi */
+body.modern .option-btn[style*="background-color"] {
+    border-color: transparent;
+}

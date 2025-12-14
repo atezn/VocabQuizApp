@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
 using vocabQuizAPI.Models;
+using vocabQuizAPI.Models.Dtos;
 using vocabQuizAPI.Repositories;
 
 namespace vocabQuizAPI.Controllers
@@ -11,11 +14,13 @@ namespace vocabQuizAPI.Controllers
     {
         private readonly IWordRepository _wordRepository;
         private readonly IScorecardRepository _scorecardRepository;
+        private readonly IHistoryRepository _historyRepository;
 
-        public WordController(IWordRepository wordRepository, IScorecardRepository scorecardRepository)
+        public WordController(IWordRepository wordRepository, IScorecardRepository scorecardRepository, IHistoryRepository historyRepository)
         {
             _wordRepository = wordRepository;
             _scorecardRepository = scorecardRepository;
+            _historyRepository = historyRepository;
         }
 
         [HttpGet]
@@ -83,6 +88,8 @@ namespace vocabQuizAPI.Controllers
                 
                 await _scorecardRepository.UpdateScoreAsync(request.UserId, request.IsCorrect);
 
+                await _historyRepository.LogAttemptAsync(request.UserId, request.WordId, request.IsCorrect, "quiz"); // simdilik quiz olarak kalsin sonra frontend requestten cekeriz
+
                 return Ok(new { message = "Progress updated successfully" });
             }
             catch (Exception ex)
@@ -111,6 +118,90 @@ namespace vocabQuizAPI.Controllers
         }
 
 
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateWord([FromBody] CreateWordDto request)
+        {
+            var newWord = new Word
+            {
+                CreatedBy = request.UserId,
+                CategoryId = request.CategoryId,
+                EnglishWord = request.EnglishWord,
+                TurkishMeaning = request.TurkishMeaning,
+                CefrLevel = request.CefrLevel
+            };
+
+            int id = await _wordRepository.AddWordAsync(newWord);
+            return Ok(new { message = "Word created", wordId = id });
+        }
+
+        
+
+        [HttpGet("my-words/{userId}")]
+        public async Task<IActionResult> GetMyWords(int userId)
+        {
+            var words = await _wordRepository.GetWordsByCreatorAsync(userId);
+            return Ok(words);
+        }
+
+        
+        [HttpPut("update/{wordId}")]
+        public async Task<IActionResult> UpdateWord(int wordId, [FromBody] UpdateWordDto request)
+        {
+            
+            var existingWord = await _wordRepository.GetWordByIdAsync(wordId);
+            if (existingWord == null) return NotFound("Word not found.");
+
+            // kelimeyi sadece ekleyen kullanici
+            if (existingWord.CreatedBy != request.RequestingUserId)
+                return Unauthorized("You do not own this word.");
+
+            
+            existingWord.CategoryId = request.CategoryId;
+            existingWord.EnglishWord = request.EnglishWord;
+            existingWord.TurkishMeaning = request.TurkishMeaning;
+            existingWord.CefrLevel = request.CefrLevel;
+
+            await _wordRepository.UpdateWordAsync(existingWord);
+            return Ok(new { message = "Word updated successfully" });
+        }
+
+      
+        [HttpDelete("delete/{wordId}")]
+        public async Task<IActionResult> DeleteWord(int wordId, [FromQuery] int requestingUserId)
+        {
+            
+            var existingWord = await _wordRepository.GetWordByIdAsync(wordId);
+            if (existingWord == null) return NotFound("Word not found.");
+
+            // sadece ekleyen kullanici
+            if (existingWord.CreatedBy != requestingUserId)
+                return Unauthorized("You do not own this word.");
+
+        
+            await _wordRepository.DeleteWordAsync(wordId);
+            return Ok(new { message = "Word deleted successfully" });
+        }
+
+        [HttpGet("unsafe-search")]
+        public async Task<IActionResult> UnsafeSearch([FromQuery] string term)
+        {
+            try
+            {
+                var results = await _wordRepository.UnsafeSearchAsync(term);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("history/{userId}")]
+        public async Task<IActionResult> GetHistory(int userId)
+        {
+            var history = await _historyRepository.GetRecentHistoryAsync(userId);
+            return Ok(history);
+        }
 
     }
 }
