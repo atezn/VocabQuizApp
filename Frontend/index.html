@@ -9,55 +9,61 @@
 </head>
 <body>
 
-    <div class="win98-window">
-        <header class="window-header">
-            
-            <nav class="main-nav">
-                <button class="win-btn active">Vocab Quiz</button>
-                <button class="win-btn">Review Words</button>
-                <button class="win-btn">Statistics</button>
-            </nav>
+    <div class="desktop-layout">
 
-            <div class="theme-switch-wrapper">
-                <button class="win-btn small-btn active-theme">98'</button>
-                <button class="win-btn small-btn">Modern</button>
+        <div class="win98-window history-window" id="history-panel">
+            <div class="window-header small-header">
+                <span>History</span>
             </div>
-
-        </header>
-
-
-        <main class="quiz-content">
-            <h1 class="question-word">WORD</h1>
-
-            <div class="option-grid">
-                <button class="win-btn option-btn">Option 1</button>
-                <button class="win-btn option-btn">Option 2</button>
-                <button class="win-btn option-btn">Option 3</button>
-                <button class="win-btn option-btn">Option 4</button>
-            </div>
-
-            <div class="footer-actions">
-                <button class="win-btn idk-btn">I don't know</button>
-            </div>
-        </main>
-
-        <main class="stats-content" style="display: none;">
-            <h2>Daily Progress</h2>
-            
-            <div style="background: white; padding: 10px; border:  2px inset white; margin-bottom: 20px;">
-                <canvas id="myChart"></canvas>
-            </div>
-
-            <h3>Recent Attemps</h3>
-            <ul id="history-list" style="text-align: left; max-height: 150px; overflow-y: auto; background: white; border: 2px inset white; padding: 10px; list-style: none;">
+            <ul id="history-list-slidebar">
                 <!-- js dolduracak -->
             </ul>
+        </div>
 
-        </main>
+        <div class="win98-window main-window">
+            <header class="window-header">
+                <nav class="main-nav">
+                    <button class="win-btn active">Vocab Quiz</button>
+                    <button class="win-btn">Review Words</button>
+                    <button class="win-btn">Statistics</button>
+                </nav>
+                <div class="theme-switch-wrapper">
+                    <button class="win-btn small-btn active-theme">98'</button>
+                    <button class="win-btn small-btn">Modern</button>
+                </div>
+            </header>
+
+            <main class="quiz-content">
+                
+                <div class="question-area">
+                    <h1 class="question-word">WORD</h1>
+
+                    <div class="option-grid">
+                        <button class="win-btn option-btn">Option 1</button>
+                        <button class="win-btn option-btn">Option 2</button>
+                        <button class="win-btn option-btn">Option 3</button>
+                        <button class="win-btn option-btn">Option 4</button>
+                    </div>
+
+                    <div class="footer-actions">
+                        <button class="win-btn idk-btn">I don't know</button>
+                    </div>
+                </div>
+            </main>
+
+            <main class="stats-content" style="display: none;">
+                <h2>Daily Progress</h2>
+                <div style="background: white; padding: 10px; border: 2px inset white; margin-bottom: 20px;">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <h3>Recent Attempts</h3>
+                <ul id="history-list" class="scroll-box"></ul>
+            </main>
+        </div>
+
     </div>
 
     <script src="api.js"></script>
     <script src="app.js"></script>
-
 </body>
 </html>

@@ -18,6 +18,8 @@ const idkBtn = document.querySelector('.idk-btn');
 const quizContent = document.querySelector('.quiz-content');
 const statsContent = document.querySelector('.stats-content');
 const historyList = document.getElementById('history-list');
+const historyPanel = document.getElementById('history-panel');
+const historyListSlidebar = document.getElementById('history-list-slidebar');
 let myChart = null;
 
 const navButtons = document.querySelectorAll('.main-nav .win-btn');
@@ -45,6 +47,13 @@ async function loadQuestion(){
             data = await ApiService.getNewWord(currentUser.userId);
         }else{
             data = await ApiService.getReviewWord(currentUser.userId);
+        }
+
+        if (currentMode === 'review') {
+        historyPanel.style.visibility = 'hidden'; // kopya onlemek icin gizleme
+        }else{
+            historyPanel.style.visibility = 'visible'; 
+            loadSidebarHistory(); 
         }
 
         if(!data || data.finished || data.empty){
@@ -191,15 +200,21 @@ function setupThemeLogic() {
 function showQuizView() {
     statsContent.style.display = 'none';
     quizContent.style.display = 'flex'; 
+
+    if(currentMode === 'new'){
+        historyPanel.style.visibility = 'visible';
+    }
 }
 
 async function showStatsView() {
     quizContent.style.display = 'none';
     statsContent.style.display = 'block';
 
+    historyPanel.style.visibility = 'hidden';
+    
     // statlar
-    const stats = await ApiService.getStats(currentUser.userId);
-    renderChart(stats);
+    const monthlyStats = await ApiService.getMonthlyStats(currentUser.userId);
+    renderAdvancedChart(monthlyStats);
 
     // history
     const history = await ApiService.getHistory(currentUser.userId);
@@ -208,42 +223,77 @@ async function showStatsView() {
 
 
 
-function renderChart(stats) {
+function renderAdvancedChart(statList){
     const ctx = document.getElementById('myChart');
 
-    // onceden varsa reset
-    if (myChart) {
-        myChart.destroy();
+    if(myChart){
+        myChart.destroy(); // reset 
     }
 
-    // onceden veri yoksa default ekleme, varsa zaten kendisi
-    const seen = stats ? stats.totalSeen : 0;
-    const correct = stats ? stats.totalCorrect : 0;
-    const wrong = stats ? stats.totalWrong : 0;
+    // Map data
+    const labels = statList.map(s => new Date(s.dateRecorded).toLocaleDateString());
+    const dataSeen = statList.map(s => s.totalSeen);
+    const dataCorrect = statList.map(s => s.totalCorrect);
+
+    // --- FIX 2: CHANGE 's.totalseen' TO 's.totalSeen' (Capital S) ---
+    const dataAccuracy = statList.map(s => {
+        return s.totalSeen > 0 ? ((s.totalCorrect / s.totalSeen) * 100).toFixed(2) : 0;
+    });
 
     myChart = new Chart(ctx, {
-        type: 'bar', 
+        type: 'bar',
         data: {
-            labels: ['Total Seen', 'Correct', 'Wrong'],
-            datasets: [{
-                label: 'Today\'s Activity',
-                data: [seen, correct, wrong],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.6)', // Blue
-                    'rgba(75, 192, 192, 0.6)', // Green
-                    'rgba(255, 99, 132, 0.6)'  // Red
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Accuracy (%)',
+                    data: dataAccuracy,
+                    type: 'line', // This makes the Yellow Line
+                    borderColor: '#FFD700',
+                    backgroundColor: '#FFD700',
+                    borderWidth: 3,
+                    yAxisID: 'y1', // Binds to Right Axis
+                    tension: 0.4
+                },
+                {
+                    label: 'Correct Words',
+                    data: dataCorrect,
+                    backgroundColor: '#4CAF50',
+                    yAxisID: 'y', // Binds to Left Axis
+                },
+                {
+                    label: 'Wrong Words',
+                    // Note: You had 'statsList' here, but the argument is named 'statList'
+                    data: statList.map(s => s.totalWrong), 
+                    backgroundColor: '#F44336',
+                    yAxisID: 'y',
+                }
+            ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false, // Fits the container better
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
             scales: {
-                y: { beginAtZero: true, ticks: { precision: 0 } }
+                y: {
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    title: { display: true, text: 'Words Count' },
+                    beginAtZero: true
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    min: 0,
+                    max: 100,
+                    grid: { drawOnChartArea: false }, 
+                    title: { display: true, text: 'Accuracy %' }
+                }
             }
         }
     });
@@ -262,10 +312,36 @@ function renderHistory(history) {
         
         const status = item.isCorrect ? '<span style="color:green">✔ Correct</span>' : '<span style="color:red">✘ Wrong</span>';
         
-        li.innerHTML = `Word ID: ${item.wordId} | ${status} <small>(${new Date(item.attemptAt).toLocaleTimeString()})</small>`;
+        // Display the English Word instead of ID
+li.innerHTML = `<strong>${item.englishWord}</strong>
+                ${status} 
+                <small>(${new Date(item.attemptAt).toLocaleTimeString()})</small>
+                `;
         li.style.borderBottom = "1px solid #eee";
         li.style.padding = "5px";
         
         historyList.appendChild(li);
     });
+}
+
+async function loadSidebarHistory() {
+    const history = await ApiService.getHistory(currentUser.userId);
+    historyListSlidebar.innerHTML = "";
+
+    if(!history || history.length === 0){
+        historyListSlidebar.innerHTML = "<li>No recent history.</li>";
+        return;
+    }
+
+    history.forEach(item => {
+        const li = document.createElement('li');
+        const cssClass = item.isCorrect ? 'correct-history' : 'wrong-history';
+        li.className = `history-item ${cssClass}`;
+
+        li.innerHTML = `
+            <strong>${item.englishWord}</strong><br/>
+            <small>${item.turkishMeaning}</small><br/>`;
+
+        historyListSlidebar.appendChild(li);
+    })
 }

@@ -6,5 +6,6 @@ namespace vocabQuizAPI.Repositories
     {
         Task<DailyScorecard?> GetTodayScorecardAsync(int userId);
         Task UpdateScoreAsync(int userId, bool isCorrect);
+        Task<IEnumerable<DailyScorecard>> GetMonthlyStatsAsync(int userId);
     }
 }

@@ -54,6 +54,10 @@ const ApiService = {
     async getHistory(userId){
         return get(`${API_BASE_URL}/word/history/${userId}`);
     },
+
+    async getMonthlyStats(userId){
+        return get(`${API_BASE_URL}/word/stats/monthly/${userId}`);
+    },
         
     
     

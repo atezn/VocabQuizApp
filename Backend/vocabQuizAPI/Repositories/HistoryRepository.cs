@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System.Data;
 using vocabQuizAPI.Models;
+using vocabQuizAPI.Models.Dtos;
 
 namespace vocabQuizAPI.Repositories
 {
@@ -28,18 +29,23 @@ namespace vocabQuizAPI.Repositories
             }
         }
 
-        public async Task<IEnumerable<QuizHistory>> GetRecentHistoryAsync(int userId)
+        public async Task<IEnumerable<HistoryDetailDto>> GetRecentHistoryAsync(int userId)
         {
             using (IDbConnection db = new MySqlConnection(_connectionString))
             {
                 string query = @"
-                    SELECT history_id AS HistoryId, word_id AS WordId, is_correct AS IsCorrect, 
-                           quiz_mode AS QuizMode, attempt_at AS AttemptAt
-                    FROM quiz_history 
-                    WHERE user_id = @UserId 
-                    ORDER BY attempt_at DESC LIMIT 10"; 
+                    SELECT 
+                        h.is_correct AS IsCorrect, 
+                        h.attempt_at AS AttemptAt,
+                        w.english_word AS EnglishWord, 
+                        w.turkish_meaning AS TurkishMeaning
+                    FROM quiz_history h
+                    INNER JOIN words w ON h.word_id = w.word_id
+                    WHERE h.user_id = @UserId 
+                    ORDER BY h.attempt_at DESC 
+                    LIMIT 10";
 
-                return await db.QueryAsync<QuizHistory>(query, new { UserId = userId });
+                return await db.QueryAsync<HistoryDetailDto>(query, new { UserId = userId });
             }
         }
     }

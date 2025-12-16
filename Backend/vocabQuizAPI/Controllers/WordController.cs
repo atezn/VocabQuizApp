@@ -203,5 +203,12 @@ namespace vocabQuizAPI.Controllers
             return Ok(history);
         }
 
+        [HttpGet("stats/monthly/{userId}")]
+        public async Task<IActionResult> GetMonthlyStats(int userId)
+        {
+            var stats = await _scorecardRepository.GetMonthlyStatsAsync(userId);
+            return Ok(stats);
+        }
+
     }
 }

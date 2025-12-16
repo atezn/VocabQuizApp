@@ -32,6 +32,29 @@ namespace vocabQuizAPI.Repositories
             }
         }
 
+        public async Task<IEnumerable<DailyScorecard>> GetMonthlyStatsAsync(int userId)
+        {
+            using (IDbConnection db = new MySqlConnection(_connectionString))
+            {
+                string query = @"
+                    SELECT 
+                        scorecard_id AS ScorecardId,
+                        date_recorded AS DateRecorded,
+                        total_seen AS TotalSeen,
+                        total_correct AS TotalCorrect,
+                        total_wrong AS TotalWrong
+                    FROM daily_scorecard 
+                    WHERE user_id = @UserId 
+                    ORDER BY date_recorded ASC
+                    LIMIT 30";
+
+                return await db.QueryAsync<DailyScorecard>(query, new { UserId = userId });
+            }
+        }
+
+
+
+
         public async Task UpdateScoreAsync(int userId, bool isCorrect)
         {
             using(IDbConnection dbConnection = new MySqlConnection(_connectionString))
