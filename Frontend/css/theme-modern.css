@@ -35,7 +35,7 @@ body {
 
 /* 3. WINDOW COMPONENT (Modern Card) */
 .win98-window {
-    background: radial-gradient(var(--window-bg),var(--window-bg),var(--window-bg),var(--window-bg),red );
+    background: var(--window-bg); /*radial-gradient(var(--window-bg),var(--window-bg),var(--window-bg),var(--window-bg),red ) */
     border-radius: 12px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
     border: 1px solid #334155;

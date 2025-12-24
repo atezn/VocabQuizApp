@@ -210,7 +210,7 @@ button[aria-label="Close"]::after { content: "✕"; }
 .quiz-content {
     display: flex;
     flex-direction: column; /* Stack Word above Buttons */
-    align-items: center;    /* Horizontal Center */
+  /* Horizontal Center */
     justify-content: center;/* Vertical Center */
     flex-grow: 1;           /* Fill all available vertical space */
     width: 100%;
