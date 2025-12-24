@@ -1,142 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Dashboard - Vocab Quiz</title>
-        <link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Word Editor</title>
+    <link id="theme-link" rel="stylesheet" href="css/theme-98.css">
+</head>
+<body>
 
-        <style>
-            
-            .dashboard-container{
-                max-width: 800px;
-                margin: 40px auto;
-                background: var(--window-bg);
-                padding: 20px;
-
-                border: 2px solid var(--border-light);
-                border-right-color: var(--border-dark);
-                border-bottom-color: var(--border-dark);
-            }
-
-            .word-table{
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-                background: white;
-                color: black;
-                border: 2px solid #808080;
-            }
-
-            .word-table th {
-                text-align: left; 
-                background: #c0c0c0;
-                border: 1px solid gray;
-                padding: 8px;
-            }
-
-            .word-table td {
-                border: 1px solid #ddd;
-                padding: 8px;
-            }
-
-            .action-btn{margin-right: 5px; padding: 2px 8px; font-size: 12px;}
-            .btn-delete {color: white; background: #be0000;}
-
-            .modal {
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); 
-            justify-content: center;
-            align-items: center;
-            }
-
-            .modal-content{
-                background: var(--window-bg);
-                padding: 20px;
-                width: 300px;
-                border: 2px solid var(--border-light);
-                border-right-color: var(--border-dark);
-                border-bottom-color: var(--border-dark);
-            }
-
-            .form-group { margin-bottom: 10px; }
-            .form-group label { display: block; margin-bottom: 4px; }
-            .form-group input, .form-group select { width: 100%; padding: 5px; }
-            
-        </style>
-
-
-    </head>
     
-    <body>
-        
-        <div class="dashboard-container">
-            <header style="display: flex; justify-content: space-between; align-items: center;">
-                <h2>My Dictionary</h2>
-                <button class="win-btn" onclick="window.location.href = 'index.html'">← Back to Quiz</button>                
-            </header>
-
-            <div style="margin: 20px 0;">
-                <button class="win-btn" onclick="openModal()">+ Add New Word</button>
+    <div class="desktop-layout centered">
+        <div class="win98-window main-window" style="width: 700px;">
+            <!-- title bar kisim -->
+            <div class="title-bar">
+                <div class="title-bar-text">Custom Word Database</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close"></button>
+                </div>
             </div>
 
-            <table class="word-table">
-                <thead>
-                    <tr>
-                        <th>English</th>
-                        <th>Turkish</th>
-                        <th>Level</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="word-list-body">
-                    <!-- js gelecek  -->
-                </tbody>
-            </table>
+            <div class="window-body">
+                <header class="app-header">
+                    <!-- nav kisim -->
+                    <nav>
+                        <button class="win-btn" onclick="window.location.href='quiz.html'">Quiz</button>
+                        <button class="win-btn" onclick="window.location.href='review.html'">Review</button>
+                        <button class="win-btn" onclick="window.location.href='stats.html'">Stats</button>
+                        <button class="win-btn active">Editor</button>
+                    </nav>
+                    <div class="theme-switch">
+                        <button class="win-btn small" onclick="setTheme('98')">98</button>
+                        <button class="win-btn small" onclick="setTheme('modern')">Modern</button>
+                    </div>
+                </header>
+
+                <!-- main kisim -->
+                <main>
+                    <!-- popup ile yeni kelime ekleme -->
+                    <div style="margin: 10px 0;">
+                        <button class="win-btn" onclick="openModal()">+ Add New Word</button>
+                    </div>
+
+                    <!-- kelime kisim -->
+                    <div class="table-container">
+                        <table class="win-table">
+                            <thead>
+                                <tr>
+                                    <th>English</th>
+                                    <th>Turkish</th>
+                                    <th>Level</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="word-list-body">
+                                <tr><td>Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
         </div>
+    </div>
 
-        <div id="word-modal" class="modal">
-
-            <div class="modal-content">
-                <h3 id="modal-title">Add Word</h3>
-
-                <input type="hidden" id="edit-word-id"> <!-- id saklamak icin hidden -->
-            
-                <div class="form-group">
-                    <label>English Word:</label>
-                    <input type="text" id="input-english">
+    <!-- popup kisim -->
+    <div id="word-modal" class="modal-overlay hidden">
+        <div class="win98-window modal-window">
+            <div class="title-bar">
+                <div class="title-bar-text">Editor</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeModal()"></button>
                 </div>
+            </div>
+            <div class="window-body">
+                <input type="hidden" id="edit-word-id">
                 
-                <div class="form-group">
-                    <label>Turkish Word:</label>
-                    <input type="text" id="input-turkish">
-                </div>
+                <label>English:</label>
+                <input type="text" id="input-english" class="win-input">
                 
-                <div class="form-group">
-                    <label>CEFR Level:</label>
-                    <select id="input-cefr">
-                        <option value="A1">A1</option>
-                        <option value="A2">A2</option>
-                        <option value="B1">B1</option>
-                        <option value="B2">B2</option>
-                        <option value="C1">C1</option>
-                        <option value="C2">C2</option>
-                    </select>
-                </div>
+                <label>Turkish:</label>
+                <input type="text" id="input-turkish" class="win-input">
+                
+                <label>CEFR Level:</label>
+                <select id="input-cefr" class="win-input">
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                </select>
 
-                <div style="margin-top: 20px; text-align: right;">
+                <div style="margin-top: 15px; text-align: right;">
                     <button class="win-btn" onclick="closeModal()">Cancel</button>
                     <button class="win-btn" onclick="saveWord()">Save</button>
                 </div>
-            
             </div>
         </div>
+    </div>
 
-        <script src="api.js"></script>
-        <script src="dashboard.js"></script>
-
-    </body>
-
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
 </html>

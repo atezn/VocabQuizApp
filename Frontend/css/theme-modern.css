@@ -1,0 +1,166 @@
+/* css/theme-modern.css */
+
+:root {
+    --bg-color: #0f172a;        /* Deep Navy  */
+    --window-bg: #1e293b;       /* Card Navy */
+    --text-color: #f1f5f9;      /* White */
+    --accent: #3b82f6;          /* Bright Blue */
+    --danger: #ef4444;
+}
+
+/* 1. BASICS */
+* { box-sizing: border-box; }
+body {
+    background-color: var(--bg-color);
+    font-family: "Inter", "Segoe UI", sans-serif;
+    color: var(--text-color);
+    margin: 0;
+    height: 100vh;
+}
+
+/* 2. UTILITIES */
+.hidden { display: none !important; }
+.auth-wrapper, .centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.desktop-layout {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding-top: 5vh;
+}
+
+/* 3. WINDOW COMPONENT (Modern Card) */
+.win98-window {
+    background: radial-gradient(var(--window-bg),var(--window-bg),var(--window-bg),var(--window-bg),red );
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    border: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* For rounded corners */
+}
+
+/* Specific Sizes */
+.auth-window { width: 400px; }
+.main-window { width: 800px; height: 650px; }
+.history-window { width: 250px; height: 650px; }
+.modal-window { width: 450px; }
+
+/* 4. TITLE BAR (Flat) */
+.title-bar {
+    background: #334155;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Hide min/max buttons in modern, keep close */
+.title-bar-controls button {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 16px;
+}
+.title-bar-controls button:hover { color: white; }
+button[aria-label="Minimize"], button[aria-label="Maximize"] { display: none; }
+button[aria-label="Close"]::after { content: "✕"; }
+
+/* 5. INPUTS */
+.win-input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 16px 0;
+    background: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    color: white;
+}
+.win-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+/* 6. BUTTONS */
+.win-btn {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.win-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+.win-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+/* 7. LISTS */
+#history-list-sidebar, .scroll-list {
+    list-style: none;
+    padding: 0; margin: 0;
+    height: 100%;
+    overflow-y: auto;
+}
+.history-item {
+    padding: 12px;
+    border-bottom: 1px solid #334155;
+    font-size: 14px;
+}
+.correct-history { border-left: 4px solid #22c55e; } /* Green Stripe */
+.wrong-history { border-left: 4px solid #ef4444; }   /* Red Stripe */
+
+/* 8. MODAL */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+/* 9. GRID */
+.option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+.option-btn {
+    height: 80px;
+    font-size: 1.2rem;
+}
+.window-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+
+.app-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+    margin-bottom: 100px;            
+    padding-bottom: 10px;
+    border-bottom: 2px groove #dfdfdf; 
+}
+
+.question-word {
+    text-align: center;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 40px; /* Push buttons down a bit */
+    font-size: 3rem;     /* Make the word BIG */
+}
+
+

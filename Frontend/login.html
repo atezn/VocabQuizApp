@@ -1,46 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login - Vocab QUIZ</title>
-        <link rel="stylesheet" href="style.css">
-        <style>
-            body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; }
-            .auth-container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 300px; }
-            input { display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box; }
-            button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
-            .switch-link { text-align: center; margin-top: 10px; font-size: 0.9em; cursor: pointer; color: #007bff; text-decoration: underline; }
-            .hidden { display: none; }
-            #error-msg { color: red; font-size: 0.9em; text-align: center; }
-        </style>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Vocab Master</title>
+    <link id="theme-link" rel="stylesheet" href="css/theme-98.css"> <!-- id kismi theme switcher icin -->
+</head>
+<body>
+    
+    
+    <div class="auth-wrapper">
+        
+        <div class="win98-window auth-window"> <!-- main kisim -->
+            
+            <!-- title bar kisim-->
+            <div class="title-bar">
+                <div class="title-bar-text">Login.exe</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Minimize"></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close"></button>
+                </div>
+            </div>
 
-    <div class="auth-container">
-        <!-- LOGIN FORM -->
-        <div id="login-form">
-            <h2 style="text-align: center;">Welcome Back</h2>
-            <input type="email" id="login-email" placeholder="Email">
-            <input type="password" id="login-password" placeholder="Password">
-            <button onclick="handleLogin()">Login</button>
-            <p class="switch-link" onclick="toggleAuth()">Need an account? Register</p>
+            <div class="window-body">
+                <div id="login-form">
+                    <div style="text-align:center; margin: 20px;">
+                        <img src="https://win98icons.alexmeub.com/icons/png/key_win-0.png" alt="key">
+                    </div>
+                    <p>Log in to your account.</p>
+                    
+                    <label>Email:</label>
+                    <input type="email" id="login-email" class="win-input">
+                    
+                    <label>Password:</label>
+                    <input type="password" id="login-password" class="win-input">
+
+                    <div style="margin-top: 15px; text-align: right;">
+                        <button class="win-btn" onclick="AppLogin.doLogin()">OK</button>
+                    </div>
+
+                    <p class="switch-link" onclick="AppLogin.toggleMode()">New user? Register here</p>
+                </div>
+
+                <!-- register kismi, default hidden -->
+                <div id="register-form" style="display:none;">
+                    <p>Create a new User Profile.</p>
+                    
+                    <label>Username:</label>
+                    <input type="text" id="reg-username" class="win-input">
+
+                    <label>Email:</label>
+                    <input type="email" id="reg-email" class="win-input">
+                    
+                    <label>Password:</label>
+                    <input type="password" id="reg-password" class="win-input">
+
+                    <div style="margin-top: 15px; text-align: right;">
+                        <button class="win-btn" onclick="AppLogin.doRegister()">Register</button>
+                    </div>
+
+                    <p class="switch-link" onclick="AppLogin.toggleMode()">Back to Login</p>
+                </div>
+                
+                <p id="error-msg" style="color:red; text-align:center; margin-top:10px;"></p>
+            </div>
         </div>
-
-        <!-- REGISTER FORM -->
-        <div id="register-form" class="hidden">
-            <h2>Create Account</h2>
-            <input type="text" id="reg-username" placeholder="Username">
-            <input type="email" id="reg-email" placeholder="Email">
-            <input type="password" id="reg-password" placeholder="Password">
-            <button onclick="handleRegister()">Register</button>
-            <p class="switch-link" onclick="toggleAuth()">Have an account? Login</p>
-        </div>
-
-        <p id="error-msg"></p>
     </div>
 
-    <script src="api.js"></script>
-    <script src="auth.js"></script> <!-- We will write this next -->
+    <!-- scripts -->
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>
