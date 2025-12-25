@@ -29,13 +29,10 @@ async function loadStats() { // stats yukleme
 
 function renderChart(statList) { // chart renderlama, ai yardim
     const ctx = document.getElementById('myChart');
-
     if (myChart) myChart.destroy();
-
     const labels = statList.map(s => new Date(s.dateRecorded).toLocaleDateString());
     const dataSeen = statList.map(s => s.totalSeen);
     const dataCorrect = statList.map(s => s.totalCorrect);
-    
     const dataAccuracy = statList.map(s => {
         return s.totalSeen > 0 ? ((s.totalCorrect / s.totalSeen) * 100).toFixed(1) : 0;
     });
