@@ -44,16 +44,16 @@ body {
     border: 1px solid #334155;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* For rounded corners */
+    overflow: hidden; 
 }
 
-/* Specific Sizes */
+
 .auth-window { width: 400px; }
 .main-window { width: 800px; height: 650px; }
 .history-window { width: 250px; height: 650px; }
 .modal-window { width: 450px; }
 
-/* 4. TITLE BAR (Flat) */
+/* title bar imitasyon*/
 .title-bar {
     background: #334155;
     padding: 12px 20px;
@@ -65,7 +65,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Hide min/max buttons in modern, keep close */
+/* title bar butonlar */
 .title-bar-controls button {
     background: transparent;
     border: none;
@@ -73,11 +73,12 @@ body {
     cursor: pointer;
     font-size: 16px;
 }
-.title-bar-controls button:hover { color: white; }
-button[aria-label="Minimize"], button[aria-label="Maximize"] { display: none; }
+.title-bar-controls button:hover { color: white; } /* hoverda beyaz ol */
+
+button[aria-label="Minimize"], button[aria-label="Maximize"] { display: none; } /* sadece kapatma sergile */
 button[aria-label="Close"]::after { content: "✕"; }
 
-/* 5. INPUTS */
+/* input kisimlari */
 .win-input {
     width: 100%;
     padding: 12px;
@@ -89,7 +90,7 @@ button[aria-label="Close"]::after { content: "✕"; }
 }
 .win-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
 
-/* 6. BUTTONS */
+/* butonlar */
 .win-btn {
     background: transparent;
     border: 1px solid #475569;
@@ -109,7 +110,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     border-color: var(--accent);
 }
 
-/* 7. LISTS */
+/* history ve stats kisimlari */
 #history-list-sidebar, .scroll-list {
     list-style: none;
     padding: 0; margin: 0;
@@ -122,10 +123,10 @@ button[aria-label="Close"]::after { content: "✕"; }
     border-bottom: 1px solid #334155;
     font-size: 14px;
 }
-.correct-history { border-left: 4px solid #22c55e; } /* Green Stripe */
-.wrong-history { border-left: 4px solid #ef4444; }   /* Red Stripe */
+.correct-history { border-left: 4px solid #22c55e; } /* dogrunun soluna yesil border*/
+.wrong-history { border-left: 4px solid #ef4444; }   /* kirmiziya kirmizi */
 
-/* 8. MODAL */
+/* edit modal */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -138,7 +139,7 @@ button[aria-label="Close"]::after { content: "✕"; }
 }
 
 
-/* 9. GRID */
+/* secenek grid */
 .option-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -149,7 +150,12 @@ button[aria-label="Close"]::after { content: "✕"; }
     height: 80px;
     font-size: 1.2rem;
 }
-.window-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+.window-body { 
+    padding: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    flex-grow: 1; 
+}
 
 .app-header {
     display: flex;
@@ -184,7 +190,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     100% { background-position: 0% 50%; }
 }
 
-.question-word::after{
+.question-word::after{ /* kelimenin altina animasyon eklenecek cizgi */
     content: '';
     position: absolute;
     height: 4px;
@@ -193,7 +199,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     bottom: 0;
     left: 0;
     background: linear-gradient(to right, rgb(235, 119, 138), white, #3b82f6, #06b6d4, #3b82f6);
-    background-size: 200% 100%;
+    background-size: 200% 100%; /* iki katina cikar ki sadece yarisi gozuksun */
     border-radius: 100px;
 
     animation: moveAnimation 3s ease;
@@ -216,7 +222,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     pointer-events: none;
 }
 
-/* HACK: Since we used background-image in 98, we need to inject text content here */
+/* burada image olmadigi icin after ile emoji ekliyoruz */
 .bouncing-mascot::after {
     content: "💎";
     font-size: 50px;
@@ -230,51 +236,48 @@ button[aria-label="Close"]::after { content: "✕"; }
 
 @media (max-width: 900px) {
 
-    /* 1. ENABLE SCROLLING */
+    
     body {
-        height: auto;       /* Let content grow */
-        overflow-y: auto;   /* Scroll enabled */
+        height: auto;      
+        overflow-y: auto;   /* scroll*/
         padding-bottom: 40px;
     }
 
-    /* 2. STACK THE LAYOUT */
+
     .desktop-layout {
-        flex-direction: column; /* Stack vertically */
+        flex-direction: column; /* cizgisel */
         align-items: center;
         padding-top: 20px;
         gap: 20px;
     }
 
-    /* 3. REORDER & RESIZE WINDOWS */
-    /* On mobile, we want the Quiz (Main) on TOP, History on BOTTOM */
     
     .main-window {
-        order: 1; /* First */
+        order: 1; /* once quiz sonra history */
         width: 95%;
         max-width: 100%;
-        height: auto; /* Grow with content */
+        height: auto; 
         min-height: 500px;
     }
 
     .history-window {
-        order: 2; /* Second */
+        order: 2; 
         width: 95%;
-        height: 300px; /* Shorter history on mobile */
+        height: 300px; 
     }
 
-    /* 4. GRID ADJUSTMENTS */
+    
     .option-grid {
-        grid-template-columns: 1fr; /* Single column buttons */
+        grid-template-columns: 1fr; 
         gap: 15px;
     }
 
     .option-btn {
-        height: 60px; /* Slightly shorter on mobile */
+        height: 60px; 
         font-size: 1.1rem;
     }
 
-    /* 5. HEADER WRAPPING */
-    /* Modern theme headers usually need more breathing room */
+    
     .window-body header {
         flex-direction: column;
         gap: 15px;
@@ -282,7 +285,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     }
 
     nav {
-        flex-wrap: wrap; /* Allow buttons to wrap to next line */
+        flex-wrap: wrap; 
         justify-content: center;
         gap: 10px;
     }
@@ -291,7 +294,6 @@ button[aria-label="Close"]::after { content: "✕"; }
         margin-top: 5px;
     }
     
-    /* 6. MODAL FIXES */
     .modal-window {
         width: 95%;
         margin: 20px;
