@@ -254,6 +254,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     padding: 5px;
 }
 
+
 /*  responsive kisim */
 
 @media (max-width: 900px) {
