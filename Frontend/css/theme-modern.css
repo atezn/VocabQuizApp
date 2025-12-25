@@ -231,6 +231,28 @@ button[aria-label="Close"]::after { content: "✕"; }
     text-align: center;
 }
 
+.table-container{
+    overflow: auto;
+}
+
+.win-table{
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--window-bg);
+    border: 2px inset white;
+}
+
+.win-table th{
+    background-color: var(--window-bg);
+    border: 1px inset white;
+    padding: 8px;
+    text-align: left;
+}
+
+.win-table td{
+    border: 1px solid gray;
+    padding: 5px;
+}
 
 /*  responsive kisim */
 
