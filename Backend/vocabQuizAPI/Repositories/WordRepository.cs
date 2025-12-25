@@ -38,7 +38,7 @@ namespace vocabQuizAPI.Repositories
                 
                 string targetQuery = @"
             SELECT w.word_id AS WordId, w.english_word AS EnglishWord, 
-                   w.turkish_meaning AS TurkishMeaning
+                   w.turkish_meaning AS TurkishMeaning, w.cefr_level AS CefrLevel
             FROM words w
             LEFT JOIN user_word_progress uwp 
                 ON w.word_id = uwp.word_id AND uwp.user_id = @UserId
@@ -71,6 +71,7 @@ namespace vocabQuizAPI.Repositories
                     WordId = targetWord.WordId,
                     EnglishWord = targetWord.EnglishWord,
                     CorrectMeaning = targetWord.TurkishMeaning,
+                    CefrLevel = targetWord.CefrLevel,
                     Options = shuffledOptions
                 };
             }
@@ -114,6 +115,7 @@ namespace vocabQuizAPI.Repositories
                     WordId = reviewWord.WordId,
                     EnglishWord = reviewWord.EnglishWord,
                     CorrectMeaning = reviewWord.TurkishMeaning,
+                    CefrLevel = reviewWord.CefrLevel,
                     Options = shuffledOptions
                 };
             }

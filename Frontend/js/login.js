@@ -55,10 +55,17 @@ const AppLogin = {
         const password = document.getElementById('reg-password').value;
         const errorBox = document.getElementById('error-msg');
 
-        if (!username || !email || !password) {
+        if (!username || !email || !password) { // field kontrol
             errorBox.textContent = "Please fill in all fields.";
             return;
         }
+
+
+        if(!this.isValidEmail(email)){
+            errorBox.textContent = "Please enter a valid email address."
+            return;
+        }
+
 
         errorBox.textContent = "Creating account..."; // gecikme olmasi durumunda
 
@@ -77,5 +84,11 @@ const AppLogin = {
             console.error(err);
             errorBox.textContent = "Registration failed. Email might be taken.";
         }
+    },
+
+    //helper method, email kontrol
+    isValidEmail(email){
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
     }
 };

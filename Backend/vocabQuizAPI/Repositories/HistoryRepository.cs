@@ -43,7 +43,7 @@ namespace vocabQuizAPI.Repositories
                     INNER JOIN words w ON h.word_id = w.word_id
                     WHERE h.user_id = @UserId 
                     ORDER BY h.attempt_at DESC 
-                    LIMIT 10";
+                    LIMIT 25";
 
                 return await db.QueryAsync<HistoryDetailDto>(query, new { UserId = userId });
             }

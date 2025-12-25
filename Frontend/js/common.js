@@ -9,6 +9,7 @@ let currentUser = null;
 (function init() {
     checkAuth(); // auth kontrol
     loadSavedTheme(); // son temayi load
+    createMascot(); //nyancat ve robot icin
 })();
 
 
@@ -47,4 +48,14 @@ function setTheme(themeName) {
     if (linkTag) { // secilene gore css dosyasini degistir
         linkTag.href = `css/theme-${themeName}.css`;
     }
+}
+
+function  createMascot(){ // bouncing animation icin div ve maskot olsutur her sayfaya
+    if (document.getElementById('app-mascot')) return;
+
+    const mascot = document.createElement('div');
+    mascot.id = 'app-mascot';
+    mascot.className = 'bouncing-mascot';
+
+    document.body.appendChild(mascot);
 }

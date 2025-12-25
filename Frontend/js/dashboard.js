@@ -109,7 +109,7 @@ async function saveWord() { // save logic, create veya update
     try {
         if (wordId) {
             //const updateData = { ...wordData, requestingUserId: currentUser.userId }; // apinin istedigi sekilde, belki yukarda direkt olarak da konulabilirdi
-            await ApiService.updateWord(wordId, updateData);
+            await ApiService.updateWord(wordId, wordData);
         } else { // yoksa create
             await ApiService.createWord(wordData);
         }

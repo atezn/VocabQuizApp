@@ -1,5 +1,6 @@
 // gerekli dom elementleri
 const questionEl = document.querySelector('.question-word');
+const cefrLevel = document.querySelector('#cefr');
 const optionsGrid = document.querySelector('.option-grid');
 const idkBtn = document.querySelector('.idk-btn');
 
@@ -44,6 +45,7 @@ async function loadQuestion() { // review icin fetch ediyoruz
 
 function renderButtons(data) { // buton render
     questionEl.textContent = data.englishWord;
+    cefrLevel.textContent = data.cefrLevel;
     optionsGrid.innerHTML = "";
 
     data.options.forEach(opt => {
@@ -69,9 +71,13 @@ async function handleAnswer(selectedOption, btnElement) {
         if (isCorrect) {
             btnElement.style.backgroundColor = "#4CAF50";
             btnElement.style.color = "white";
+            btnElement.style.transition = "transform 0.3s ease-in-out";
+            btnElement.style.transform = "scale(1.1)";
         } else {
             btnElement.style.backgroundColor = "#F44336";
             btnElement.style.color = "white";
+            btnElement.style.transition = "transform 0.3s ease-in-out";
+            btnElement.style.transform = "scale(0.9)";
             highlightCorrect(currentWordData.correctMeaning);
         }
     } else {

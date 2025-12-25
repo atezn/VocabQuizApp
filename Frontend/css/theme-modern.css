@@ -1,5 +1,4 @@
-/* css/theme-modern.css */
-
+/* global variables */
 :root {
     --bg-color: #0f172a;        /* Deep Navy  */
     --window-bg: #1e293b;       /* Card Navy */
@@ -8,7 +7,7 @@
     --danger: #ef4444;
 }
 
-/* 1. BASICS */
+/*  genel */
 * { box-sizing: border-box; }
 body {
     background-color: var(--bg-color);
@@ -18,14 +17,18 @@ body {
     height: 100vh;
 }
 
-/* 2. UTILITIES */
+/* kapali kisimlar kapali */
 .hidden { display: none !important; }
+
+/* sadece (login-review-dashboard)icin, quizde history de var */
 .auth-wrapper, .centered {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
 }
+
+/* (quiz / Stats) */
 .desktop-layout {
     display: flex;
     justify-content: center;
@@ -33,7 +36,7 @@ body {
     padding-top: 5vh;
 }
 
-/* 3. WINDOW COMPONENT (Modern Card) */
+/* modern sekme */
 .win98-window {
     background: var(--window-bg); /*radial-gradient(var(--window-bg),var(--window-bg),var(--window-bg),var(--window-bg),red ) */
     border-radius: 12px;
@@ -112,6 +115,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     padding: 0; margin: 0;
     height: 100%;
     overflow-y: auto;
+    padding-bottom: 25px;
 }
 .history-item {
     padding: 12px;
@@ -132,6 +136,7 @@ button[aria-label="Close"]::after { content: "✕"; }
     align-items: center;
     z-index: 100;
 }
+
 
 /* 9. GRID */
 .option-grid {
@@ -155,12 +160,163 @@ button[aria-label="Close"]::after { content: "✕"; }
     border-bottom: 2px groove #dfdfdf; 
 }
 
+.word-area{
+    display: flex;
+    gap: 5%;
+    justify-content: center;
+
+}
+
 .question-word {
     text-align: center;
-    width: 100%;
+    width: auto;
     margin-top: 0;
-    margin-bottom: 40px; /* Push buttons down a bit */
-    font-size: 3rem;     /* Make the word BIG */
+    margin-bottom: 40px; 
+    font-size: 3rem;     
+
+    position: relative; /* ::after icin */
+    display: inline-block;
 }
+
+@keyframes moveAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.question-word::after{
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to right, rgb(235, 119, 138), white, #3b82f6, #06b6d4, #3b82f6);
+    background-size: 200% 100%;
+    border-radius: 100px;
+
+    animation: moveAnimation 3s ease;
+    animation-iteration-count: infinite;
+
+}
+
+@keyframes bounceAnimation {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.bouncing-mascot {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+
+    animation: bounceAnimation 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* HACK: Since we used background-image in 98, we need to inject text content here */
+.bouncing-mascot::after {
+    content: "💎";
+    font-size: 50px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+
+/*  responsive kisim */
+
+@media (max-width: 900px) {
+
+    /* 1. ENABLE SCROLLING */
+    body {
+        height: auto;       /* Let content grow */
+        overflow-y: auto;   /* Scroll enabled */
+        padding-bottom: 40px;
+    }
+
+    /* 2. STACK THE LAYOUT */
+    .desktop-layout {
+        flex-direction: column; /* Stack vertically */
+        align-items: center;
+        padding-top: 20px;
+        gap: 20px;
+    }
+
+    /* 3. REORDER & RESIZE WINDOWS */
+    /* On mobile, we want the Quiz (Main) on TOP, History on BOTTOM */
+    
+    .main-window {
+        order: 1; /* First */
+        width: 95%;
+        max-width: 100%;
+        height: auto; /* Grow with content */
+        min-height: 500px;
+    }
+
+    .history-window {
+        order: 2; /* Second */
+        width: 95%;
+        height: 300px; /* Shorter history on mobile */
+    }
+
+    /* 4. GRID ADJUSTMENTS */
+    .option-grid {
+        grid-template-columns: 1fr; /* Single column buttons */
+        gap: 15px;
+    }
+
+    .option-btn {
+        height: 60px; /* Slightly shorter on mobile */
+        font-size: 1.1rem;
+    }
+
+    /* 5. HEADER WRAPPING */
+    /* Modern theme headers usually need more breathing room */
+    .window-body header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    nav {
+        flex-wrap: wrap; /* Allow buttons to wrap to next line */
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .theme-switch {
+        margin-top: 5px;
+    }
+    
+    /* 6. MODAL FIXES */
+    .modal-window {
+        width: 95%;
+        margin: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

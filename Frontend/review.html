@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Mode</title>
     <link id="theme-link" rel="stylesheet" href="css/theme-98.css">
 </head>
@@ -9,7 +10,7 @@
     <!-- title bar kisim-->
     <div class="desktop-layout centered">
 
-        <div class="win98-window main-window">
+        <div class="win98-window main-window medium-width">
             <div class="title-bar">
                 <div class="title-bar-text">Review Mode - Mistakes</div>
                 <div class="title-bar-controls">
@@ -37,7 +38,10 @@
 
                 <!-- review kisim -->
                 <main class="quiz-content">
-                    <h1 class="question-word">LOADING...</h1>
+                    <div class="word-area">
+                        <h1 class="question-word">LOADING... </h1> <!-- api sikintili veya uzun surerse gosterilir -->
+                        <h3 id="cefr" class="cefr"> </h3>
+                    </div>
                     <div class="option-grid"></div>
                     <div style="text-align: center; margin-top: 20px;">
                         <button class="win-btn idk-btn">I don't know</button>
