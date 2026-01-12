@@ -2,7 +2,7 @@ PROJECT: Vocab Quiz - 3rd Grade Project
 
 STUDENT: Batuhan ISLEN
 
-
+------------------------------------------------------------
 PREREQUISITES:
 ------------------------------------------------------------
 1. Visual Studio 2022 (with ASP.NET & Web Development workload).
