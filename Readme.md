@@ -1,6 +1,5 @@
 PROJECT: Vocab Quiz - 3rd Grade Project
 STUDENT: Batuhan ISLEN
-STUDENT ID: 20230205016
 
 
 PREREQUISITES:
