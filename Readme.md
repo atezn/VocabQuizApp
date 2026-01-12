@@ -1,4 +1,5 @@
 PROJECT: Vocab Quiz - 3rd Grade Project
+
 STUDENT: Batuhan ISLEN
 
 
@@ -66,4 +67,4 @@ FEATURES TO REVIEW
 2. Review Mode: Re-tests mistakes. History sidebar is hidden to prevent cheating.
 3. Statistics: Chart.js visualization of daily progress (Check User 2).
 4. Dashboard: Full CRUD operations for Custom Words.
-============================================================
+------------------------------------------------------------
