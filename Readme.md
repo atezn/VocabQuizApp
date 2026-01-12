@@ -57,6 +57,7 @@ Password: 123
 User 2 (Advanced User - Full History & Stats):
 Email: student@uni.edu
 Password: mypassword123  <-- (Use this to see the charts!)
+
 ------------------------------------------------------------
 
 
