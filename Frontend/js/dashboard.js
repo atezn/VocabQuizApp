@@ -9,7 +9,7 @@ const inpEng = document.getElementById('input-english');
 const inpTr = document.getElementById('input-turkish');
 const inpCefr = document.getElementById('input-cefr');
 
-let globalWordList = [];
+let globalWordList = []; // edit kismi icin localde dursun diye
 
 
 
@@ -75,7 +75,7 @@ function closeModal() { // modal kapama logic
 }
 
 function openEditMode(wordId) { // edit logic
-    const word = globalWordList.find(w => w.wordId === wordId); // tutulan datadan cek
+    const word = globalWordList.find(w => w.wordId === wordId); // tutulan datadan cek, yoksa undefined
     if (!word) return; // yoksa don
 
 
@@ -108,9 +108,8 @@ async function saveWord() { // save logic, create veya update
 
     try {
         if (wordId) {
-            //const updateData = { ...wordData, requestingUserId: currentUser.userId }; // apinin istedigi sekilde, belki yukarda direkt olarak da konulabilirdi
             await ApiService.updateWord(wordId, wordData);
-        } else { // yoksa create
+        } else { // yoksa create, olmasi imkansiz ama belki
             await ApiService.createWord(wordData);
         }
 

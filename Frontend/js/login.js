@@ -7,11 +7,11 @@ const AppLogin = {
         const errorBox = document.getElementById('error-msg');
 
         // toggle
-        if (loginForm.style.display === 'none') {
+        if (loginForm.style.display === 'none') { /* login none ise registerdayiz, logini getir */
             loginForm.style.display = 'block';
             regForm.style.display = 'none';
         } else {
-            loginForm.style.display = 'none';
+            loginForm.style.display = 'none'; /* degilse registerdayiz, logini getir */
             regForm.style.display = 'block';
         }
         

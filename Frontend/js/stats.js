@@ -27,7 +27,7 @@ async function loadStats() { // stats yukleme
     }
 }
 
-function renderChart(statList) { // chart renderlama, ai yardim
+function renderChart(statList) { // chart renderlama
     const ctx = document.getElementById('myChart');
     if (myChart) myChart.destroy();
     const labels = statList.map(s => new Date(s.dateRecorded).toLocaleDateString());
