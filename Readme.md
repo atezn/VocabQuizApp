@@ -1,8 +1,8 @@
 PROJECT: Vocab Quiz - 3rd Grade Project
+
 STUDENT: Batuhan ISLEN
-STUDENT ID: 20230205016
 
-
+------------------------------------------------------------
 PREREQUISITES:
 ------------------------------------------------------------
 1. Visual Studio 2022 (with ASP.NET & Web Development workload).
@@ -57,6 +57,7 @@ Password: 123
 User 2 (Advanced User - Full History & Stats):
 Email: student@uni.edu
 Password: mypassword123  <-- (Use this to see the charts!)
+
 ------------------------------------------------------------
 
 
@@ -67,4 +68,4 @@ FEATURES TO REVIEW
 2. Review Mode: Re-tests mistakes. History sidebar is hidden to prevent cheating.
 3. Statistics: Chart.js visualization of daily progress (Check User 2).
 4. Dashboard: Full CRUD operations for Custom Words.
-============================================================
+------------------------------------------------------------
